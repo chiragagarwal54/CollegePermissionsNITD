@@ -1,0 +1,57 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <title>CollegePermissions</title>
+  </head>
+  <style>
+
+    #topbar{
+      background: aqua;
+      padding-top:8px;
+      padding-bottom:5px;
+      text-align:center;
+    }
+  </style>
+  <body>
+    <div id='topbar' class='jumbotron'>
+      <h3>College Permissions</h3>
+    </div>
+  {% for each in buildings %}
+    <div class="accordion" id="accordionExample">
+      <div class="card">
+        <div class="card-header" id="headingOne">
+          <h2 class="mb-0">
+            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+              {{ each.name }}
+            </button>
+          </h2>
+        </div>
+
+        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+          <div class="card-body">
+            <div>
+              {% for r in buildings.rooms %}
+
+                <div class="col-lg-9 col-sm-12" style="margin-left:1vw;">
+                    {{ r.number }}
+                </div>
+                <div class="col-lg-2 col-sm-12" style="float:right;">
+                    {{ r.occupied }}
+                </div>
+
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+
+
+  </body>
+</html>

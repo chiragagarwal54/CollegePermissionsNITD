@@ -9,8 +9,9 @@ class building(models.Model):
         return self.name
 
 class room(models.Model):
-    name = models.ForeignKey(building, on_delete=models.CASCADE)
+    centre = models.ForeignKey(building, on_delete=models.CASCADE)
+    number = models.CharField(max_length=50)
     occupied = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.name
+        return self.number
