@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<div id='middlebar' align='center'>
+  <h3>{{building.name}}</h3>
+</div>
+
+  <div id='rooms'>
+    {% for each in building.room_set.all %}
+    <div id='roomlist' class="card">
+      <div class="card-header">
+        <p>Room Number: {{each.number}}</p>
+      </div>
+      <div class="card-body">
+        <p class="card-text">Room status: {% if each.occupied %}Occupied{% else %}Unoccupied{% endif %}</p>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+{% endblock %}
