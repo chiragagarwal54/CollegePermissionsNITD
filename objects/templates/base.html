@@ -13,7 +13,7 @@
     #topbar{
       background: grey;
       padding-top:8px;
-      padding-bottom:5px;
+      padding-bottom:10px;
       text-align:center;
     }
 
@@ -44,15 +44,47 @@
       margin-bottom:2%;
     }
 
+    h2{display: inline;}
+
+    #login{
+      padding-top:5px;
+    }
+
   </style>
   <body>
     <div id='topbar' class='jumbotron'>
       <h2>College Permissions</h2>
+      <div id="login" style="float:right;">
+        {% if user.is_authenticated %}
+          <a href="{% url 'SubForm' %}"
+            <button class="btn btn-sm  my-2 my-sm-0 m-1 navBtn">
+              <strong>Submitted request</strong>
+            </button>
+          </a>
+          {{user.username}}
+            <a href="{% url 'logout' %}">
+              <button class="btn btn-sm my-2 my-sm-0 m-1 navBtn">
+                <strong>Logout</strong>
+              </button>
+            </a>
+        {% else %}
+            <a href="{% url 'login' %}">
+              <button class="btn btn-sm  my-2 my-sm-0 m-1 navBtn">
+                <strong>Login</strong>
+              </button>
+            </a>
+        {% endif %}
+      </div>
     </div>
+
    {% block content %}
     <div id='middle'>
       {% for building in buildings %}
+      {% if user.is_authenticated %}
       <a href="{% url 'RoomList' building.id %}">
+      {% else %}
+      <a href="{% url 'login' %}">
+      {% endif %}
         <button id='midbutton' type="button" class="btn btn-secondary btn-lg btn-block btn-dark">
           {{ building.name }}
         </button>

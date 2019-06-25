@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<div id='subform'>
+  {% for each in sub %}
+    <p>{{each.club}}</p>
+    <p>{{each.building}}</p>
+    <p>{{each.dates}}</p>
+    <p>{{each.purpose}}</p>
+    <p>{{each.room}}</p>
+    <br>
+  {% endfor %}
+</div>
+{% endblock %}
