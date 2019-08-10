@@ -2,12 +2,19 @@
 {% block content %}
 <div id='subform'>
   {% for each in sub %}
-    <p>{{each.club}}</p>
-    <p>{{each.building}}</p>
-    <p>{{each.dates}}</p>
-    <p>{{each.purpose}}</p>
-    <p>{{each.room}}</p>
-    <br>
+    <div class="card" id="subform">
+      <div class="card-header">
+        <b>{{each.club}}</b>
+      </div>
+      <div class="card-body">
+        <h5 class="card-title"><b><u>Purpose</u>:</b> {{each.purpose}}</h5>
+        <p class="card-text">
+          <b><u>Building</u>:</b> {{each.building}}<br>
+          <b><u>Room No.</u>:</b> {{each.room}}<br>
+          <b><u>Date</u>:</b> {{each.dates}}<br>
+        </p>
+      </div>
+    </div>
   {% endfor %}
 </div>
 {% endblock %}

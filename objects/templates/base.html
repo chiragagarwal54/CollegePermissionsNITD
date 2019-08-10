@@ -17,7 +17,7 @@
       text-align:center;
     }
 
-    #middle{
+    #middle1{
       color: black;
       text-align:center;
       padding:5px;
@@ -50,6 +50,12 @@
       padding-top:5px;
     }
 
+    #subform{
+      margin-left:10%;
+      margin-right:10%;
+      margin-bottom:5%;
+    }
+
   </style>
   <body>
     <div id='topbar' class='jumbotron'>
@@ -78,7 +84,9 @@
     </div>
 
    {% block content %}
-    <div id='middle'>
+
+   {% if user.is_student %}
+    <div id='middle1'>
       {% for building in buildings %}
       {% if user.is_authenticated %}
       <a href="{% url 'RoomList' building.id %}">
@@ -91,6 +99,27 @@
       </a>
       {% endfor %}
     <div>
+  {% endif %}
+  {% if user.is_teacher %}
+  <div id='subform'>
+    {% for each in forms %}
+      <div class="card" id="subform">
+        <div class="card-header">
+          <b>{{each.club}}</b>
+        </div>
+        <div class="card-body">
+          <h5 class="card-title"><b><u>Purpose</u>:</b> {{each.purpose}}</h5>
+          <p class="card-text">
+            <b><u>Building</u>:</b> {{each.building}}<br>
+            <b><u>Room No.</u>:</b> {{each.room}}<br>
+            <b><u>Date</u>:</b> {{each.dates}}<br>
+          </p>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
   {% endblock %}
 
   </body>

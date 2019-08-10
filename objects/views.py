@@ -7,12 +7,15 @@ from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate, logout
 from .form import *
 from django.template import RequestContext
+from .decorators import student_required
+from django.contrib.auth.decorators import login_required
 
 
 def base(request):
     buildings = Building.objects.all()
+    forms = Permissionform.objects.all()
     #rooms = room.objects.filter('centre')
-    return render(request, 'base.html', {'buildings': buildings})
+    return render(request, 'base.html', {'buildings': buildings},{'forms': forms})
 
 def RoomList(request, building_id):
     building = get_object_or_404(Building, id=building_id)
@@ -43,7 +46,7 @@ def logout_view(request):
 
 def permission(request):
     if request.method=="POST":
-        form=PermForm(request.POST)
+        form=PermForm(data=request.POST)
         if form.is_valid() and request.user.is_authenticated:
             form.save()
             return redirect('base')
