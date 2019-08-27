@@ -4,6 +4,7 @@ from django.contrib.auth.models import AbstractUser, User
 from django.urls import reverse
 from django.db import models
 from django.contrib.auth import get_user_model as user_model
+from django.db.models import Count
 #User = user_model()
 
 class User(AbstractUser):
@@ -57,11 +58,38 @@ class Permissionform(models.Model):
     def __str__(self):
         return (self.purpose +' '+ str(self.dates))
 
-class Authorizationlist(models.Model):
-    forrooms = models.ManyToManyField(Teacher)
+class PriorityQueue(models.Model):
+    def __init__(self):
+        self.queue = []
 
     def __str__(self):
-        return self.forrooms.objects.all().annotate(Count())
+        return ' '.join([str(i) for i in self.queue])
+
+    # for checking if the queue is empty
+    def isEmpty(self):
+        return len(self.queue) == []
+
+    # for inserting an element in the queue
+    def insert(self, data):
+        self.queue.append(data)
+
+    # for popping an element based on Priority
+    def delete(self):
+        try:
+            item = self.queue[0]
+            del self.queue[0]
+            return item
+        except IndexError:
+            print()
+            exit()
+
+class Authorizationlist(models.Model):
+    for_rooms = PriorityQueue()
+
+    def __str__(self):
+        return len(self.queue) == []
+        #signatoriescount = Authorizationlist.forrooms.all().count()
+        #return signatoriescount
 
 class Authorizationform(models.Model):
     name = models.ForeignKey(User, on_delete=models.CASCADE)
