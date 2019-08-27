@@ -7,10 +7,10 @@ from django.contrib.auth import get_user_model as user_model
 #User = user_model()
 
 class User(AbstractUser):
-    is_student = models.BooleanField(default=False)
+    is_club = models.BooleanField(default=False)
     is_teacher = models.BooleanField(default=False)
 
-class Student(models.Model):
+class Club(models.Model):
     User = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
 
     def __str__(self):
@@ -31,7 +31,6 @@ class Building(models.Model):
 class Room(models.Model):
     building = models.ForeignKey(Building, on_delete=models.CASCADE)
     number = models.CharField(max_length=50)
-    occupied = models.BooleanField(default=False)
 
     def building_name(self):
         return self.building.name
@@ -40,7 +39,7 @@ class Room(models.Model):
         return self.number
 
 class Permissionform(models.Model):
-    club = models.ForeignKey(Student, on_delete=models.CASCADE)
+    club = models.ForeignKey(Club, on_delete=models.CASCADE)
     building = models.ForeignKey(Building, on_delete=models.CASCADE)
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
     purpose = models.CharField(max_length=500)
@@ -57,3 +56,19 @@ class Permissionform(models.Model):
 
     def __str__(self):
         return (self.purpose +' '+ str(self.dates))
+
+class Authorizationlist(models.Model):
+    forrooms = models.ManyToManyField(Teacher)
+
+    def __str__(self):
+        return self.forrooms.objects.all().annotate(Count())
+
+class Authorizationform(models.Model):
+    name = models.ForeignKey(User, on_delete=models.CASCADE)
+    building = models.ForeignKey(Building, on_delete=models.CASCADE)
+    room = models.ForeignKey(Room, on_delete=models.CASCADE)
+    purpose = models.TextField()
+    dates = models.DateField()
+
+    def __str__(self):
+        return self.purpose

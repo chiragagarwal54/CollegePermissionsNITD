@@ -7,18 +7,19 @@ from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate, logout
 from .form import *
 from django.template import RequestContext
-from .decorators import student_required
+from .decorators import club_required
 from django.contrib.auth.decorators import login_required
 
 
-def base(request):
-    buildings = Building.objects.all()
-    forms = Permissionform.objects.all()
-    #rooms = room.objects.filter('centre')
-    return render(request, 'base.html', {'buildings': buildings},{'forms': forms})
+def Base(request, username):
+        username = User.objects.get(username=request.user)
+        buildings = Building.objects.all()
+        forms = Permissionform.objects.all()
+        #rooms = room.objects.filter('centre')
+        return render(request, 'base.html', {'buildings': buildings},{'forms': forms},{'username': username})
 
-def RoomList(request, building_id):
-    building = get_object_or_404(Building, id=building_id)
+def RoomList(request, building):
+    building = get_object_or_404(Building, Building=building)
     return render(request, 'roomlist.html', context={'building': building})
 
 
@@ -55,7 +56,8 @@ def permission(request):
     context = {'form': form}
     return render(request, 'requestform.html', context)
 
-def SubForm(request):
+def SubForm(request, username):
+    username = User.objects.get(username=request.user)
     sub = Permissionform.objects.all()
     context = {'sub': sub}
     return render(request, 'subform.html', context)
