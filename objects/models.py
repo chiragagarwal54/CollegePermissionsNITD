@@ -59,7 +59,7 @@ class Permissionform(models.Model):
         return (self.purpose +' '+ str(self.dates))
 
 class PriorityQueue(models.Model):
-    def __init__(self):
+    def __init__(self, Teacher):
         self.queue = []
 
     def __str__(self):
@@ -70,8 +70,8 @@ class PriorityQueue(models.Model):
         return len(self.queue) == []
 
     # for inserting an element in the queue
-    def insert(self, data):
-        self.queue.append(data)
+    def insert(self, user_id):
+        self.queue.append(user_id)
 
     # for popping an element based on Priority
     def delete(self):
@@ -84,10 +84,10 @@ class PriorityQueue(models.Model):
             exit()
 
 class Authorizationlist(models.Model):
-    for_rooms = PriorityQueue()
+    for_rooms = PriorityQueue(Teacher)
 
     def __str__(self):
-        return len(self.queue) == []
+        return len(self.queue)
         #signatoriescount = Authorizationlist.forrooms.all().count()
         #return signatoriescount
 
