@@ -12,11 +12,14 @@ from django.contrib.auth.decorators import login_required
 
 
 def Base(request, username):
-        username = User.objects.get(username=request.user)
         buildings = Building.objects.all()
         forms = Permissionform.objects.all()
         #rooms = room.objects.filter('centre')
-        return render(request, 'base.html', {'buildings': buildings},{'forms': forms},{'username': username})
+        if request.user.is_authenticated:
+            username = User.objects.get(username=request.user)
+            return render(request, 'base.html', {'buildings': buildings},{'forms': forms},{'username': username})
+        else:
+            return render(request, 'base.html', {'buildings': buildings},{'forms': forms})
 
 def RoomList(request, building):
     building = get_object_or_404(Building, Building=building)

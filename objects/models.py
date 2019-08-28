@@ -58,8 +58,10 @@ class Permissionform(models.Model):
     def __str__(self):
         return (self.purpose +' '+ str(self.dates))
 
-class PriorityQueue(models.Model):
-    def __init__(self, Teacher):
+class PriorityQueue(Teacher):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.queue = []
 
     def __str__(self):
@@ -84,10 +86,10 @@ class PriorityQueue(models.Model):
             exit()
 
 class Authorizationlist(models.Model):
-    for_rooms = PriorityQueue(Teacher)
+    NAB = PriorityQueue()
 
     def __str__(self):
-        return len(self.queue)
+        return len(self.for_rooms.queue)
         #signatoriescount = Authorizationlist.forrooms.all().count()
         #return signatoriescount
 
