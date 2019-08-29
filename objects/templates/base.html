@@ -62,7 +62,7 @@
       <h2>College Permissions</h2>
       <div id="login" style="float:right;">
         {% if user.is_authenticated %}
-          <a href="{% url 'SubForm' user.username %}"
+          <a href="{% url 'SubForm' %}"
             <button class="btn btn-sm  my-2 my-sm-0 m-1 navBtn">
               <strong>Submitted request</strong>
             </button>
@@ -89,7 +89,7 @@
     <div id='middle1'>
       {% for building in buildings %}
       {% if user.is_authenticated %}
-      <a href="{% url 'RoomList' user.username building.id %}">
+      <a href="{% url 'RoomList' building.id %}">
       {% else %}
       <a href="{% url 'login' %}">
       {% endif %}

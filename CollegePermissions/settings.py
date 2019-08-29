@@ -116,7 +116,7 @@ USE_TZ = True
 
 AUTH_USER_MODEL = 'objects.User'
 
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/User.username/'
 
 
 # Static files (CSS, JavaScript, Images)

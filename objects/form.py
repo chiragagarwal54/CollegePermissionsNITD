@@ -10,8 +10,12 @@ class PermForm(ModelForm):
     class Meta:
         model = Permissionform
         fields = ('club','building','room','purpose','dates')
+        widgets = {
+            'club': Input(attrs={'readonly': 'readonly'})
+        }
 
     def clean(self):
+        club = request.user
         cleaned_data = super(PermForm, self).clean()
         date = cleaned_data.get('dates')
         if date <= date.today():

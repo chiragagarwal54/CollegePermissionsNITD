@@ -10,19 +10,15 @@ from django.template import RequestContext
 from .decorators import club_required
 from django.contrib.auth.decorators import login_required
 
-
-def Base(request, username):
+@login_required
+def Base(request):
         buildings = Building.objects.all()
         forms = Permissionform.objects.all()
         #rooms = room.objects.filter('centre')
-        if request.user.is_authenticated:
-            username = User.objects.get(username=request.user)
-            return render(request, 'base.html', {'buildings': buildings},{'forms': forms},{'username': username})
-        else:
-            return render(request, 'base.html', {'buildings': buildings},{'forms': forms})
+        return render(request, 'base.html', {'buildings': buildings},{'forms': forms})
 
-def RoomList(request, building):
-    building = get_object_or_404(Building, Building=building)
+def RoomList(request, building_id):
+    building = get_object_or_404(Building, id=building_id)
     return render(request, 'roomlist.html', context={'building': building})
 
 
@@ -48,7 +44,8 @@ def logout_view(request):
     return redirect('index')
 
 
-def permission(request):
+def permission(request, building_id):
+    building = get_object_or_404(Building, id=building_id)
     if request.method=="POST":
         form=PermForm(data=request.POST)
         if form.is_valid() and request.user.is_authenticated:
@@ -59,8 +56,7 @@ def permission(request):
     context = {'form': form}
     return render(request, 'requestform.html', context)
 
-def SubForm(request, username):
-    username = User.objects.get(username=request.user)
-    sub = Permissionform.objects.all()
+def SubForm(request):
+    sub = Permissionform.objects.filter(club=request.user)
     context = {'sub': sub}
     return render(request, 'subform.html', context)

@@ -2,9 +2,10 @@ from . import views
 from django.urls import path
 
 urlpatterns = [
-  path('<slug:username>/<slug:building>/<slug:room>/permission/', views.permission, name='permission'),
-  path('<slug:username>/<slug:building>/', views.RoomList, name='RoomList'),
-  path('<slug:username>/submittedforms/', views.SubForm, name='SubForm'),
-  path('<slug:username>/', views.Base, name='base'),
+  path('<int:building_id>/<slug:room>/permission/', views.permission, name='permission'),
+  path('<int:building_id>/permission/new/', views.permission, name='permission'),
+  path('<int:building_id>/', views.RoomList, name='RoomList'),
+  path('submittedforms/', views.SubForm, name='SubForm'),
+  path('', views.Base, name='base'),
   path('login/', views.login_view, name='login'),
 ]

@@ -40,7 +40,7 @@ class Room(models.Model):
         return self.number
 
 class Permissionform(models.Model):
-    club = models.ForeignKey(Club, on_delete=models.CASCADE)
+    club = models.ForeignKey(User, on_delete=models.CASCADE)
     building = models.ForeignKey(Building, on_delete=models.CASCADE)
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
     purpose = models.CharField(max_length=500)
@@ -58,22 +58,21 @@ class Permissionform(models.Model):
     def __str__(self):
         return (self.purpose +' '+ str(self.dates))
 
-class PriorityQueue(Teacher):
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.queue = []
+class PriorityQueue(models.Model):
+    queue = []
+    #def __init__(self):
+    #    self.queue = []
 
     def __str__(self):
-        return ' '.join([str(i) for i in self.queue])
+        return ' '.join([str(i) for i.username in self.queue])
 
     # for checking if the queue is empty
     def isEmpty(self):
         return len(self.queue) == []
 
     # for inserting an element in the queue
-    def insert(self, user_id):
-        self.queue.append(user_id)
+    def insert(self, Teacher):
+        self.queue.append(Teacher)
 
     # for popping an element based on Priority
     def delete(self):
@@ -85,13 +84,15 @@ class PriorityQueue(Teacher):
             print()
             exit()
 
-class Authorizationlist(models.Model):
-    NAB = PriorityQueue()
+#class Authorizationlist(models.Model):
+    #NAB = group
 
-    def __str__(self):
-        return len(self.for_rooms.queue)
+#    def __str__(self):
+#        return len(self.for_rooms.queue)
         #signatoriescount = Authorizationlist.forrooms.all().count()
         #return signatoriescount
+class Authorizationlist(PriorityQueue):
+    NAB = PriorityQueue(Teacher)
 
 class Authorizationform(models.Model):
     name = models.ForeignKey(User, on_delete=models.CASCADE)
